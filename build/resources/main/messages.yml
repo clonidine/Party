@@ -1,0 +1,48 @@
+need-leave-party-error: '&cYou are already in a party'
+already-created-party-error: "&cYou've already created a party"
+already-invited: "&cYou've already invited this player"
+no-party-error: "&cYou don't have a party"
+not-leader-error: "&cYou're not the party leader"
+cannot-invite-yourself-error: "&cYou can't invite yourself"
+cannot-kick-yourself-error: "&cYou can't kick yourself"
+cannot-set-leader-yourself-error: "&cYou can't set leader yourself"
+player-not-found-error: "&cThis player doesn't exist or is not online"
+party-not-found-error: "&cThis player doesn't have a party"
+not-invited-error: '&cYou are not invited to this party'
+party-full-error: '&cThe party is full'
+already-in-this-party-error: "&cYou're already at this party"
+leader-cannot-leave-party-error: "&cYou are the leader of the party, you can't leave"
+player-already-in-party-error: '&cThis player is already in party'
+player-not-in-your-party-error: "&cThis player is not in your party"
+party-limit-error: '&cOnly the leader can change the party limit'
+party-limit-exceeded-error: '&cThe party limit must be less than %max_limit% &7(&6MAX LIMIT&7) &cand greater than the number of party members'
+number-format-exception-error: '&cYou need to enter an integer'
+invite-cooldown-message-error: "&cYour invite hasn't expired yet, you need to wait to send another one. %time%"
+player-cooldown-message-error: '&cYou are running commands too fast! Wait a bit.'
+
+created-party-message: "&eYou've created a party"
+disbanded-party-message: "&eYou've disbanded your party"
+inviter-message: "&eYou've invited &6%player%"
+invited-message: "&aYou've been invited to &6%player%'s &eparty"
+left-party-message: "&cYou've left the party"
+party-members-kick-message: "&6%player% &cwas kicked out of the party"
+target-kick-message: '&cYou got kicked out of the party'
+leader-set-message: '&eYou gave your party to &6%player%'
+leader-set-target-message: "&eYou're the new party leader"
+party-joiner-message: "&eYou've joined the party"
+party-limit-message: '&aThe party limit has been changed'
+party-members-joining-message: '&6%player% &ejoined the party'
+party-members-leaving-message: '&6%player% &cleft the party'
+
+party-list-members-message: '&eMembers: &6%name%'
+
+help:
+  - '&e/party create'
+  - '&e/party disband'
+  - '&e/party invite <player>'
+  - '&e/party join <player>'
+  - '&e/party kick <player>'
+  - '&e/party leave'
+  - '&e/party list'
+  - '&e/party setleader <player>'
+  - '&e/party setlimit <limit>'

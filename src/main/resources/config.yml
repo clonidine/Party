@@ -1,0 +1,7 @@
+invite-cooldown-mode: on
+invite-cooldown-time: "30000"
+
+players-cooldown-mode: on
+players-command-execute-time: "1000"
+
+party-max-limit: "30"

@@ -1,0 +1,10 @@
+main: net.lcly.party.PartyLY
+name: PartyLY
+version: 1.0
+api-version: 1.8.8
+author: lcly
+
+commands:
+  party:
+    aliases:
+      - p

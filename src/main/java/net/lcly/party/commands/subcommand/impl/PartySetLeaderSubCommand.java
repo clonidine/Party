@@ -32,7 +32,7 @@ public class PartySetLeaderSubCommand implements SubCommand {
         Player player = (Player) sender;
         Party party = this.manager.getParty(player.getUniqueId());
 
-        if (party == null) {
+        if (!manager.hasParty(player.getUniqueId())) {
             this.dispatcher.dispatch(player, "no-party-error");
             return false;
         }

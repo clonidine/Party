@@ -9,17 +9,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
+@Getter
 public class PartyLY extends JavaPlugin {
 
     @Getter private PartyManager partyManager;
     @Getter private MessageDispatcher messageDispatcher;
-    @Getter private PartyCommand partyCommand;
-    @Getter private PlayerLeaveListener playerLeaveListener;
     @Override
     public void onEnable() {
         loadMessageDispatcher();
-        registerListener();
         registerManager();
+        registerListener();
         registerCommand();
         Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "PartyLY enabled");
     }
@@ -30,7 +29,7 @@ public class PartyLY extends JavaPlugin {
     }
 
     public void registerCommand() {
-        partyCommand = new PartyCommand(this);
+        new PartyCommand(this);
     }
 
     public void registerManager() {
@@ -38,7 +37,7 @@ public class PartyLY extends JavaPlugin {
     }
 
     public void registerListener() {
-        playerLeaveListener = new PlayerLeaveListener(this);
+        new PlayerLeaveListener(this);
     }
 
     private void loadMessageDispatcher() {

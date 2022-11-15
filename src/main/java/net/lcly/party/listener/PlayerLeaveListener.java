@@ -13,33 +13,36 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import java.util.Objects;
 
 public class PlayerLeaveListener implements Listener {
+
     private final PartyLY plugin;
+    private final PartyManager partyManager;
 
     public PlayerLeaveListener(PartyLY plugin) {
         this.plugin = plugin;
+        this.partyManager = this.plugin.getPartyManager();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        PartyManager manager = this.plugin.getPartyManager();
-        Party party = manager.getParty(player.getUniqueId());
-        MessageDispatcher dispatcher = this.plugin.getMessageDispatcher();
+        Party party = partyManager.getParty(player.getUniqueId());
 
         if (party == null) {
             return;
         }
 
+        MessageDispatcher messageDispatcher = this.plugin.getMessageDispatcher();
+
         if (!party.isLeader(player.getUniqueId())) {
-            party.getMembers().forEach(member -> dispatcher.dispatch(Bukkit.getPlayer(member), "party-members-leaving-message", playerBukkit ->
+            party.getMembers().forEach(member -> messageDispatcher.dispatch(Bukkit.getPlayer(member), "party-members-leaving-message", playerBukkit ->
                     playerBukkit.replace("%player%", player.getName())));
-            manager.updatePartyCache(player.getUniqueId(), null);
+            partyManager.updatePartyCache(player.getUniqueId(), null);
             party.getMembers().remove(player.getUniqueId());
             return;
         }
 
-        party.getMembers().stream().filter(Objects::nonNull).forEach(member -> dispatcher.dispatch(Bukkit.getPlayer(member), "disbanded-party-message"));
-        party.disband(player.getUniqueId());
+        party.getMembers().stream().filter(Objects::nonNull).forEach(member -> messageDispatcher.dispatch(Bukkit.getPlayer(member), "disbanded-party-message"));
+        partyManager.disband(player.getUniqueId());
     }
 }

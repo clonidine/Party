@@ -14,11 +14,11 @@ import java.util.List;
 
 public class PartyJoinSubCommand implements SubCommand {
 
-    private final PartyManager manager;
+    private final PartyManager partyManager;
     private final MessageDispatcher dispatcher;
 
     public PartyJoinSubCommand(PartyLY plugin) {
-        this.manager = plugin.getPartyManager();
+        this.partyManager = plugin.getPartyManager();
         this.dispatcher = plugin.getMessageDispatcher();
     }
 
@@ -30,7 +30,7 @@ public class PartyJoinSubCommand implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player joiner = (Player) sender;
-        Party joinerParty = this.manager.getParty(joiner.getUniqueId());
+        Party joinerParty = this.partyManager.getParty(joiner.getUniqueId());
 
         if (args.length != 2) {
             this.dispatcher.dispatch(joiner, "help");
@@ -49,12 +49,12 @@ public class PartyJoinSubCommand implements SubCommand {
             return false;
         }
 
-        if (this.manager.getParty(target.getUniqueId()) == null) {
+        if (this.partyManager.getParty(target.getUniqueId()) == null) {
             this.dispatcher.dispatch(joiner, "party-not-found-error");
             return false;
         }
 
-        Party targetParty = this.manager.getParty(target.getUniqueId());
+        Party targetParty = this.partyManager.getParty(target.getUniqueId());
 
         if (targetParty.getMembers().contains(joiner.getUniqueId())) {
             this.dispatcher.dispatch(joiner, "already-in-this-party-error");
@@ -71,7 +71,7 @@ public class PartyJoinSubCommand implements SubCommand {
             return false;
         }
 
-        targetParty.join(joiner.getUniqueId(), target.getUniqueId());
+        partyManager.join(joiner.getUniqueId(), target.getUniqueId());
         this.dispatcher.dispatch(joiner, "party-joiner-message");
         targetParty.getMembers().stream().filter(member -> member != joiner.getUniqueId()).forEach(member -> this.dispatcher.dispatch(Bukkit.getPlayer(member), "party-members-joining-message", player ->
                 player.replace("%player%", joiner.getName())));

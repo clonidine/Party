@@ -13,11 +13,11 @@ import java.util.Collections;
 import java.util.List;
 
 public class PartyKickSubCommand implements SubCommand {
-    private final PartyManager manager;
+    private final PartyManager partyManager;
     private final MessageDispatcher dispatcher;
 
     public PartyKickSubCommand(PartyLY plugin) {
-        this.manager = plugin.getPartyManager();
+        this.partyManager = plugin.getPartyManager();
         this.dispatcher = plugin.getMessageDispatcher();
     }
 
@@ -29,7 +29,7 @@ public class PartyKickSubCommand implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player playerSender = (Player) sender;
-        Party party = this.manager.getParty(playerSender.getUniqueId());
+        Party party = this.partyManager.getParty(playerSender.getUniqueId());
 
         if (args.length != 2) {
             this.dispatcher.dispatch(playerSender, "help");
@@ -63,7 +63,7 @@ public class PartyKickSubCommand implements SubCommand {
             return false;
         }
 
-        party.kick(target.getUniqueId());
+        partyManager.kick(target.getUniqueId());
         party.getMembers().forEach(member -> this.dispatcher.dispatch(Bukkit.getPlayer(member), "party-members-kick-message", player ->
                 player.replace("%player%", target.getName())));
         this.dispatcher.dispatch(target, "target-kick-message");

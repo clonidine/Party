@@ -14,10 +14,10 @@ import java.util.List;
 
 public class PartyLeaveSubCommand implements SubCommand {
 
-    private final PartyManager manager;
+    private final PartyManager partyManager;
     private final MessageDispatcher dispatcher;
     public PartyLeaveSubCommand(PartyLY plugin) {
-        this.manager = plugin.getPartyManager();
+        this.partyManager = plugin.getPartyManager();
         this.dispatcher = plugin.getMessageDispatcher();
     }
 
@@ -30,12 +30,12 @@ public class PartyLeaveSubCommand implements SubCommand {
     public boolean execute(CommandSender sender, String[] args) {
         Player target = (Player) sender;
 
-        if (!this.manager.hasParty(target.getUniqueId())) {
+        if (!this.partyManager.hasParty(target.getUniqueId())) {
             this.dispatcher.dispatch(target, "no-party-error");
             return false;
         }
 
-        Party party = this.manager.getParty(target.getUniqueId());
+        Party party = this.partyManager.getParty(target.getUniqueId());
 
         if (args.length != 1) {
             this.dispatcher.dispatch(target, "help");
@@ -47,7 +47,7 @@ public class PartyLeaveSubCommand implements SubCommand {
             return false;
         }
 
-        party.leave(target.getUniqueId());
+        partyManager.leave(target.getUniqueId());
         this.dispatcher.dispatch(target, "left-party-message");
         party.getMembers().forEach(member -> this.dispatcher.dispatch(Bukkit.getPlayer(member), "party-members-leaving-message", player ->
                 player.replace("%player%", target.getName())));

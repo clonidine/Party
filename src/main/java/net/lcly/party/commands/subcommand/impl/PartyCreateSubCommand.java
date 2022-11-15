@@ -13,13 +13,13 @@ import java.util.List;
 
 public class PartyCreateSubCommand implements SubCommand {
 
-    private final PartyManager manager;
+    private final PartyManager partyManager;
     private final PartyLY plugin;
     private final MessageDispatcher dispatcher;
 
     public PartyCreateSubCommand(PartyLY plugin) {
         this.plugin = plugin;
-        this.manager = plugin.getPartyManager();
+        this.partyManager = plugin.getPartyManager();
         this.dispatcher = plugin.getMessageDispatcher();
     }
 
@@ -32,16 +32,14 @@ public class PartyCreateSubCommand implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        Party party = this.manager.getParty(player.getUniqueId());
 
-        if (party != null) {
+        if (partyManager.hasParty(player.getUniqueId())) {
             this.dispatcher.dispatch(player, "already-created-party-error");
             return false;
         }
 
-        party = new Party(player.getUniqueId(), this.plugin);
-        this.manager.updatePartyCache(player.getUniqueId(), party);
-        this.dispatcher.dispatch(player, "created-party-message");
+        partyManager.updatePartyCache(player.getUniqueId(), new Party(player.getUniqueId(), plugin));
+        dispatcher.dispatch(player, "created-party-message");
         return true;
     }
 }

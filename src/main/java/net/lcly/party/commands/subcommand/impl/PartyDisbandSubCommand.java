@@ -15,11 +15,11 @@ import java.util.List;
 public class PartyDisbandSubCommand implements SubCommand {
 
     private final MessageDispatcher dispatcher;
-    private final PartyManager manager;
+    private final PartyManager partyManager;
 
     public PartyDisbandSubCommand(PartyLY plugin) {
         this.dispatcher = plugin.getMessageDispatcher();
-        this.manager = plugin.getPartyManager();
+        this.partyManager = plugin.getPartyManager();
     }
 
     @Override
@@ -30,9 +30,9 @@ public class PartyDisbandSubCommand implements SubCommand {
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        Party party = this.manager.getParty(player.getUniqueId());
+        Party party = this.partyManager.getParty(player.getUniqueId());
 
-        if (!this.manager.hasParty(player.getUniqueId())) {
+        if (!this.partyManager.hasParty(player.getUniqueId())) {
             this.dispatcher.dispatch(sender, "no-party-error");
             return false;
         }
@@ -43,7 +43,7 @@ public class PartyDisbandSubCommand implements SubCommand {
         }
 
         party.getMembers().forEach(member -> this.dispatcher.dispatch(Bukkit.getPlayer(member), "disbanded-party-message"));
-        party.disband(player.getUniqueId());
+        partyManager.disband(player.getUniqueId());
         return true;
     }
 }

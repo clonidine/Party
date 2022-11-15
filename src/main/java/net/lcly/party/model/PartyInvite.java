@@ -1,19 +1,16 @@
 package net.lcly.party.model;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
 import java.util.UUID;
 
+@RequiredArgsConstructor
+@Getter
 public class PartyInvite {
 
-    @Getter private final UUID inviter;
-    @Getter private final UUID invited;
-    @Getter private final Date moment;
-
-    public PartyInvite(UUID inviter, UUID invited) {
-        this.inviter = inviter;
-        this.invited = invited;
-        this.moment = new Date();
-    }
+    private final UUID inviter;
+    private final UUID invited;
+    private final Date moment = new Date();
 }

@@ -7,14 +7,16 @@ import net.lcly.party.model.Party;
 import net.lcly.party.model.PartyInvite;
 
 import java.util.*;
-
+@Getter
 public class PartyManager {
 
-    @Getter private final Set<Party> parties = new HashSet<>();
-    @Getter private final Map<UUID, Party> playersInPartyCache = new HashMap<>();
-    @Getter private final CooldownMap<PartyInvite> partyInvitesInCooldown = new CooldownMap<>();
+    private final Set<Party> parties = new HashSet<>();
+    private final Map<UUID, Party> playersInPartyCache = new HashMap<>();
+    private final CooldownMap<PartyInvite> partyInvitesInCooldown = new CooldownMap<>();
+    private final PartyLY plugin;
 
     public PartyManager(PartyLY plugin) {
+        this.plugin = plugin;
     }
 
     public Party getParty(UUID playerUUID) {
@@ -28,6 +30,38 @@ public class PartyManager {
     public void removeParty(Party party) {
         parties.remove(party);
     }
+    public void disband(UUID playerUUID) {
+        Party party = getParty(playerUUID);
+        removeParty(party);
+        party.getMembers().forEach(member -> updatePartyCache(member, null));
+    }
+
+    public void invite(Party party, PartyInvite invite) {
+        if (this.plugin.getConfig().getBoolean("invite-cooldown-mode")) {
+            getPartyInvitesInCooldown().put(invite, Long.parseLong(plugin.getConfig().getString("invite-cooldown-time")));
+        }
+        party.getInvites().add(invite);
+    }
+
+    public void join(UUID sender, UUID target) {
+        Party party = getParty(target);
+        updatePartyCache(sender, party);
+        party.getMembers().add(sender);
+        party.getInvites().remove(party.getInvite(sender, target));
+    }
+
+    public void leave(UUID playerUUID) {
+        Party party = getParty(playerUUID);
+        updatePartyCache(playerUUID, null);
+        party.getMembers().remove(playerUUID);
+    }
+
+    public void kick(UUID playerUUID) {
+        Party party = getParty(playerUUID);
+        updatePartyCache(playerUUID, null);
+        party.getMembers().remove(playerUUID);
+    }
+
 
     public void updatePartyCache(UUID playerUUID, Party party) {
         if (party != null) {

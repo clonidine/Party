@@ -85,6 +85,7 @@ public class PartyInviteSubCommand implements SubCommand {
         this.dispatcher.dispatch(invited, "invited-message", player -> player.replace("%player%", inviter.getName()));
         invited.playSound(invited.getLocation(), Sound.NOTE_PLING, 100.0f, 1.0f);
         inviter.playSound(inviter.getLocation(), Sound.NOTE_STICKS, 100.0f, 1.0f);
+
         invited.spigot().sendMessage(textComponent);
 
         partyManager.invite(party, new PartyInvite(inviter.getUniqueId(), invited.getUniqueId()));

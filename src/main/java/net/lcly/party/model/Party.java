@@ -34,11 +34,8 @@ public class Party {
     }
 
     public PartyInvite getInvite(UUID invited, UUID inviter) {
-        for (PartyInvite invite : invites) {
-            if (invite.getInvited().equals(invited) && invite.getInviter().equals(inviter)) {
-                return invite;
-            }
-        }
-        return null;
+        return invites.stream().
+                filter(invite -> invite.getInvited().equals(invited) && invite.getInviter().equals(inviter)).
+                findFirst().orElse(null);
     }
 }

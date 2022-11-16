@@ -16,6 +16,7 @@ public class PlayerLeaveListener implements Listener {
 
     private final PartyManager partyManager;
     private final MessageDispatcher messageDispatcher;
+
     public PlayerLeaveListener(PartyLY plugin) {
         this.partyManager = plugin.getPartyManager();
         this.messageDispatcher = plugin.getMessageDispatcher();

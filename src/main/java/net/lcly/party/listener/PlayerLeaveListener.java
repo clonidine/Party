@@ -14,12 +14,11 @@ import java.util.Objects;
 
 public class PlayerLeaveListener implements Listener {
 
-    private final PartyLY plugin;
     private final PartyManager partyManager;
-
+    private final MessageDispatcher messageDispatcher;
     public PlayerLeaveListener(PartyLY plugin) {
-        this.plugin = plugin;
-        this.partyManager = this.plugin.getPartyManager();
+        this.partyManager = plugin.getPartyManager();
+        this.messageDispatcher = plugin.getMessageDispatcher();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
@@ -31,8 +30,6 @@ public class PlayerLeaveListener implements Listener {
         if (party == null) {
             return;
         }
-
-        MessageDispatcher messageDispatcher = this.plugin.getMessageDispatcher();
 
         if (!party.isLeader(player.getUniqueId())) {
             party.getMembers().forEach(member -> messageDispatcher.dispatch(Bukkit.getPlayer(member), "party-members-leaving-message", playerBukkit ->
